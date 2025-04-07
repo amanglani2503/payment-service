@@ -50,8 +50,8 @@ public class StripeService {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("http://localhost:8080/success")
-                        .setCancelUrl("http://localhost:8080/cancel")
+                        .setSuccessUrl("http://localhost:8084/success")
+                        .setCancelUrl("http://localhost:8084/cancel")
                         .addLineItem(lineItem)
                         .build();
 
@@ -89,78 +89,3 @@ public class StripeService {
         }
     }
 }
-//
-//
-//package com.example.payment_service.service;
-//
-//import com.example.payment_service.entity.PaymentRequest;
-//import com.example.payment_service.entity.StripeResponse;
-//import com.stripe.Stripe;
-//import com.stripe.model.checkout.Session;
-//import com.stripe.param.checkout.SessionCreateParams;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//@Service
-//public class StripeService {
-//
-//    @Value("${stripe.secret.key}")
-//    private String secretKey;
-//
-//    @Value("${frontend.success.url}")
-//    private String successUrl;
-//
-//    @Value("${frontend.cancel.url}")
-//    private String cancelUrl;
-//
-//    public StripeResponse checkoutProducts(PaymentRequest request) {
-//        try {
-//            Stripe.apiKey = secretKey;
-//
-//            Map<String, String> metadata = new HashMap<>();
-//            metadata.put("bookingId", request.getBookingId());
-//
-//            SessionCreateParams params = SessionCreateParams.builder()
-//                    .setMode(SessionCreateParams.Mode.PAYMENT)
-//                    .setSuccessUrl(successUrl)
-//                    .setCancelUrl(cancelUrl)
-//                    .addLineItem(
-//                            SessionCreateParams.LineItem.builder()
-//                                    .setQuantity(1L)
-//                                    .setPriceData(
-//                                            SessionCreateParams.LineItem.PriceData.builder()
-//                                                    .setCurrency(request.getCurrency())
-//                                                    .setUnitAmount((long) (request.getAmount() * 100)) // in cents
-//                                                    .setProductData(
-//                                                            SessionCreateParams.LineItem.PriceData.ProductData.builder()
-//                                                                    .setName("Flight booking for " + request.getUserId())
-//                                                                    .build()
-//                                                    )
-//                                                    .build()
-//                                    )
-//                                    .build()
-//                    )
-//                    .putMetadata("bookingId", request.getBookingId())
-//                    .build();
-//
-//            Session session = Session.create(params);
-//
-//            StripeResponse response = new StripeResponse();
-//            response.setSessionId(session.getId());
-//            response.setSessionUrl(session.getUrl());
-//            response.setStatus("SUCCESS");
-//            response.setMessage("Session created successfully");
-//
-//            return response;
-//
-//        } catch (Exception e) {
-//            StripeResponse response = new StripeResponse();
-//            response.setStatus("FAILED");
-//            response.setMessage("Stripe session creation failed: " + e.getMessage());
-//            return response;
-//        }
-//    }
-//}
